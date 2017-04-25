@@ -22,9 +22,11 @@ public class Trinket implements GameObject {
         rectangle.bottom += y;
     }
 
-    public Trinket(int rectHeight, int color, int startX, int startY){
+    public Trinket(int startX, int startY, int width, int height, int color){
+
+        // initX, initY, width, height, color
         this.color = color;
-        rectangle = new Rect(startX, startY, startX, startY + rectHeight);
+        rectangle = new Rect(startX, startY, startX + width, startY + height);
     }
 
     public boolean playerCollide(RectPlayer player){

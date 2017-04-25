@@ -38,9 +38,9 @@ public class GameplayScene implements Scene {
     public static int OBSTACLE_COLOR = Color.YELLOW;
 
     public static int TRINKET_COLOR = Color.BLUE;
-    public static int TRINKET_WIDTH = 50;
-    public static int TRINKET_HEIGHT = 50;
-    public static int TRINKET_GAP = 560;
+    public static int TRINKET_WIDTH = 80;
+    public static int TRINKET_HEIGHT = 80;
+    public static int TRINKET_GAP = 400;
 
 
     //endregion

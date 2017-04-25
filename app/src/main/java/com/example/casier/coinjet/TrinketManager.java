@@ -46,7 +46,8 @@ public class TrinketManager {
         int currY = -5*Constants.SCREEN_HEIGHT/4;
         while(currY < 0){
             int xStart = (int) (Math.random()*(Constants.SCREEN_WIDTH - tWidth));
-            trinkets.add(new Trinket(tHeight, color, tWidth, currY));
+            // initX, initY, width, height, color
+            trinkets.add(new Trinket(xStart, currY, tWidth, tHeight, color));
             currY += tHeight + trinketGap;
         }
     }
@@ -63,7 +64,8 @@ public class TrinketManager {
         //endregion
 
         if(trinkets.get(trinkets.size() -1).getRectangle().top >= Constants.SCREEN_HEIGHT) { // TODO TEST
-            trinkets.add(0, new Trinket(tHeight, color, tWidth, trinkets.get(0).getRectangle().top - tHeight - trinketGap));
+            int xStart = (int) (Math.random()*(Constants.SCREEN_WIDTH - tWidth));
+            trinkets.add(0, new Trinket(xStart, trinkets.get(0).getRectangle().top - tHeight - trinketGap, tWidth, tHeight, color ));
             trinkets.remove(trinkets.size() -1);
         }
 
