@@ -1,6 +1,7 @@
 package com.example.casier.coinjet;
 
 import android.graphics.Canvas;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -64,6 +65,15 @@ public class TrinketManager {
         //endregion
 
         if(trinkets.get(trinkets.size() -1).getRectangle().top >= Constants.SCREEN_HEIGHT) { // TODO TEST
+
+            int currY = -5*Constants.SCREEN_HEIGHT/4;
+            int calculatedY = trinkets.get(0).getRectangle().top - tHeight - trinketGap;
+
+            Log.d("panda", "TRINKET : currentY " + currY + " // calculatedY : " + calculatedY);
+            Log.d("panda", "trinkets.get(0).getRectangle().top : " + trinkets.get(0).getRectangle().top);
+            Log.d("panda", "tHeight : " + tHeight);
+            Log.d("panda", "trinketGap : " + trinketGap);
+
             int xStart = (int) (Math.random()*(Constants.SCREEN_WIDTH - tWidth));
             trinkets.add(0, new Trinket(xStart, trinkets.get(0).getRectangle().top - tHeight - trinketGap, tWidth, tHeight, color ));
             trinkets.remove(trinkets.size() -1);

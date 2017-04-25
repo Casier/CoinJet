@@ -3,6 +3,7 @@ package com.example.casier.coinjet;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -65,6 +66,15 @@ public class ObstacleManager {
         //endregion
 
         if(obstacles.get(obstacles.size() - 1).getRectangle().top >= Constants.SCREEN_HEIGHT){
+
+            int calculatedY =  obstacles.get(0).getRectangle().top - obstacleHeight - obstacleGap;
+
+            Log.d("panda", "OBSTACLE : calculatedY : " + calculatedY );
+            Log.d("panda", "obstacles.get(0).getRectangle().top : " + obstacles.get(0).getRectangle().top);
+            Log.d("panda", "obstacleHeight : " + obstacleHeight);
+            Log.d("panda", "obstacleGap : " + obstacleGap);
+
+
             int xStart = (int) (Math.random()*(Constants.SCREEN_WIDTH - playerGap));
             obstacles.add(0, new Obstacle(obstacleHeight, color, xStart, obstacles.get(0).getRectangle().top - obstacleHeight - obstacleGap, playerGap));
             obstacles.remove(obstacles.size() -1);

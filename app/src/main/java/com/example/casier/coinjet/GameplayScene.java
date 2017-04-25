@@ -66,8 +66,8 @@ public class GameplayScene implements Scene {
             player.update(playerPoint);
             obstacleManager.update();
             if(obstacleManager.playerCollide(player)){
-                gameOver = true;
-                gameOverTime = System.currentTimeMillis();
+                //gameOver = true;
+                //gameOverTime = System.currentTimeMillis();
             }
             trinketManager.update();
             if(trinketManager.playerCollide(player)){
