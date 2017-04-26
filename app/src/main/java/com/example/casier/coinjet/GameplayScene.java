@@ -64,7 +64,7 @@ public class GameplayScene implements Scene {
     public void reset() {
         playerPoint = new Point(Constants.SCREEN_WIDTH / 2, 3 * Constants.SCREEN_HEIGHT / 4);
         player.update(playerPoint);
-        obstacleManager = new ObstacleManager(350, 350, 75, Color.YELLOW);
+        obstacleManager = new ObstacleManager(PLAYER_GAP, OBSTACLE_GAP, OBSTACLE_HEIGHT, OBSTACLE_COLOR);
         trinketManager = new TrinketManager(TRINKET_COLOR, TRINKET_WIDTH, TRINKET_HEIGHT, TRINKET_GAP, TRINKET_OBSTACLE_GAP);
         movingPlayer = false;
 
