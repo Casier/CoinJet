@@ -1,7 +1,6 @@
 package com.example.casier.coinjet;
 
 import android.graphics.Canvas;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -16,73 +15,59 @@ public class TrinketManager {
     private int tWidth; // Trinket width
     private int tHeight; // Trinket height
     private int trinketGap; // Space between two trinkets
+    private int trinketObstacleGap; // Space between a trinket & an obstacle
 
-    private long startTime; // timestamp for game start
-    private long initTime; // complement to startTime allowing us to speed the game
-
-    public TrinketManager(int color, int tWidth, int tHeight, int trinketGap){
+    public TrinketManager(int color, int tWidth, int tHeight, int trinketGap, int trinketObstacleGap) {
         this.color = color;
         this.tWidth = tWidth;
         this.tHeight = tHeight;
         this.trinketGap = trinketGap;
-
-        startTime = initTime = System.currentTimeMillis();
+        this.trinketObstacleGap = trinketObstacleGap;
 
         trinkets = new ArrayList<>();
 
         populateTrinkets();
     }
 
-    public boolean playerCollide(RectPlayer player){
-        for(Trinket tk : trinkets){
-            if(tk.playerCollide(player)){
+    public boolean playerCollide(RectPlayer player) {
+        for (Trinket tk : trinkets) {
+            if (tk.playerCollide(player)) {
+                int xStart = (int) (Math.random() * (Constants.SCREEN_WIDTH - tWidth));
+                Trinket trinket = new Trinket(xStart, trinkets.get(0).getRectangle().top - tHeight - trinketGap, tWidth, tHeight, color);
                 trinkets.remove(tk);
+                trinkets.add(0, trinket);
                 return true;
             }
         }
         return false;
     }
 
-    private void populateTrinkets(){
-        int currY = -5*Constants.SCREEN_HEIGHT/4;
-        while(currY < 0){
-            int xStart = (int) (Math.random()*(Constants.SCREEN_WIDTH - tWidth));
+    private void populateTrinkets() {
+        int currY = -5 * Constants.SCREEN_HEIGHT / 4;
+        while (currY < 0) {
+            int xStart = (int) (Math.random() * (Constants.SCREEN_WIDTH - tWidth));
             // initX, initY, width, height, color
-            trinkets.add(new Trinket(xStart, currY, tWidth, tHeight, color));
+            trinkets.add(new Trinket(xStart, currY - trinketObstacleGap, tWidth, tHeight, color));
             currY += tHeight + trinketGap;
         }
     }
 
-    public void update(){
-        //region Handle game speed acceleration over time
-        int elapsedTime = (int) (System.currentTimeMillis() - startTime);
-        startTime = System.currentTimeMillis();
-        float speed = (float) Math.sqrt(1 + (startTime - initTime) / 2000.0) * Constants.SCREEN_HEIGHT / 5000.0f;
+    public void update(float incrY) {
 
-        for(Trinket tk : trinkets){
-            tk.incrementY(speed * elapsedTime);
+        for (Trinket tk : trinkets) {
+            tk.incrementY(incrY);
         }
-        //endregion
 
-        if(trinkets.get(trinkets.size() -1).getRectangle().top >= Constants.SCREEN_HEIGHT) { // TODO TEST
-
-            int currY = -5*Constants.SCREEN_HEIGHT/4;
-            int calculatedY = trinkets.get(0).getRectangle().top - tHeight - trinketGap;
-
-            Log.d("panda", "TRINKET : currentY " + currY + " // calculatedY : " + calculatedY);
-            Log.d("panda", "trinkets.get(0).getRectangle().top : " + trinkets.get(0).getRectangle().top);
-            Log.d("panda", "tHeight : " + tHeight);
-            Log.d("panda", "trinketGap : " + trinketGap);
-
-            int xStart = (int) (Math.random()*(Constants.SCREEN_WIDTH - tWidth));
-            trinkets.add(0, new Trinket(xStart, trinkets.get(0).getRectangle().top - tHeight - trinketGap, tWidth, tHeight, color ));
-            trinkets.remove(trinkets.size() -1);
+        if (trinkets.get(trinkets.size() - 1).getRectangle().top >= Constants.SCREEN_HEIGHT) {
+            int xStart = (int) (Math.random() * (Constants.SCREEN_WIDTH - tWidth));
+            trinkets.add(0, new Trinket(xStart, trinkets.get(0).getRectangle().top - tHeight - trinketGap, tWidth, tHeight, color));
+            trinkets.remove(trinkets.size() - 1);
         }
 
     }
 
-    public void draw(Canvas canvas){
-        for(Trinket tk : trinkets){
+    public void draw(Canvas canvas) {
+        for (Trinket tk : trinkets) {
             tk.draw(canvas);
         }
     }

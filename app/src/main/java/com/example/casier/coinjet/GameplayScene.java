@@ -26,6 +26,11 @@ public class GameplayScene implements Scene {
     private boolean gameOver = false;
     private long gameOverTime;
 
+    private long startTime;
+    private long initTime;
+    private int elapsedTime;
+    private float speed;
+
     //region Important variables
 
     public static int PLAYER_WIDTH = 100;     // Ratio will be saved
@@ -41,37 +46,53 @@ public class GameplayScene implements Scene {
     public static int TRINKET_WIDTH = 80;
     public static int TRINKET_HEIGHT = 80;
     public static int TRINKET_GAP = 400;
+    public static int TRINKET_OBSTACLE_GAP = 200;
 
 
     //endregion
 
-    public GameplayScene(){
+    public GameplayScene() {
         player = new RectPlayer(new Rect(0, 0, PLAYER_WIDTH, PLAYER_HEIGHT), PLAYER_COLOR);
         playerPoint = new Point(Constants.SCREEN_WIDTH / 2, 3 * Constants.SCREEN_HEIGHT / 4);
         player.update(playerPoint);
         obstacleManager = new ObstacleManager(PLAYER_GAP, OBSTACLE_GAP, OBSTACLE_HEIGHT, OBSTACLE_COLOR);
-        trinketManager = new TrinketManager(TRINKET_COLOR, TRINKET_WIDTH, TRINKET_HEIGHT, TRINKET_GAP);
+        trinketManager = new TrinketManager(TRINKET_COLOR, TRINKET_WIDTH, TRINKET_HEIGHT, TRINKET_GAP, TRINKET_OBSTACLE_GAP);
+
+        startTime = initTime = System.currentTimeMillis();
     }
 
-    public void reset(){
+    public void reset() {
         playerPoint = new Point(Constants.SCREEN_WIDTH / 2, 3 * Constants.SCREEN_HEIGHT / 4);
         player.update(playerPoint);
         obstacleManager = new ObstacleManager(350, 350, 75, Color.YELLOW);
+        trinketManager = new TrinketManager(TRINKET_COLOR, TRINKET_WIDTH, TRINKET_HEIGHT, TRINKET_GAP, TRINKET_OBSTACLE_GAP);
         movingPlayer = false;
+
+        startTime = initTime = System.currentTimeMillis();
     }
 
     @Override
     public void update() {
-        if(!gameOver){
+        if (!gameOver) {
+
+            //region handle game speed acceleration
+            elapsedTime = (int) (System.currentTimeMillis() - startTime);
+            startTime = System.currentTimeMillis();
+            speed = (float) Math.sqrt(1 + (startTime - initTime) / 2000) * Constants.SCREEN_HEIGHT / 5000.0f;
+            float incrY = speed * elapsedTime;
+            //endregion
+
             player.update(playerPoint);
-            obstacleManager.update();
-            if(obstacleManager.playerCollide(player)){
-                //gameOver = true;
-                //gameOverTime = System.currentTimeMillis();
+            obstacleManager.update(incrY);
+            if (obstacleManager.playerCollide(player)) {
+                gameOver = true;
+                gameOverTime = System.currentTimeMillis();
             }
-            trinketManager.update();
-            if(trinketManager.playerCollide(player)){
+            trinketManager.update(incrY);
+            if (trinketManager.playerCollide(player)) {
+                // TODO : change speed
             }
+
         }
     }
 
@@ -83,7 +104,7 @@ public class GameplayScene implements Scene {
         obstacleManager.draw(canvas);
         trinketManager.draw(canvas);
 
-        if(gameOver){
+        if (gameOver) {
             Paint paint = new Paint();
             paint.setTextSize(100);
             paint.setColor(Color.CYAN);
@@ -98,25 +119,25 @@ public class GameplayScene implements Scene {
 
     @Override
     public void recieveTouch(MotionEvent event) {
-        switch(event.getAction()){
+        switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                if(!gameOver && player.getRectangle().contains((int) event.getX(), (int) event.getY()))
+                if (!gameOver && player.getRectangle().contains((int) event.getX(), (int) event.getY()))
                     movingPlayer = true;
-                if(gameOver && System.currentTimeMillis() - gameOverTime >= 2000){
+                if (gameOver && System.currentTimeMillis() - gameOverTime >= 2000) {
                     reset();
                     gameOver = false;
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
-                if(movingPlayer && !gameOver)
-                    playerPoint.set((int)event.getX(), (int)event.getY());
+                if (movingPlayer && !gameOver)
+                    playerPoint.set((int) event.getX(), (int) event.getY());
                 break;
             case MotionEvent.ACTION_UP:
                 movingPlayer = false;
         }
     }
 
-    private void drawCenterText(Canvas canvas, Paint paint, String text){
+    private void drawCenterText(Canvas canvas, Paint paint, String text) {
         paint.setTextAlign(Paint.Align.LEFT);
         canvas.getClipBounds(r);
         int cHeight = r.height();

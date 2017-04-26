@@ -3,7 +3,6 @@ package com.example.casier.coinjet;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -19,73 +18,52 @@ public class ObstacleManager {
     private int obstacleHeight;
     private int color;
 
-    private long startTime;
-    private long initTime;
-
     private int score = 0;
 
-    public ObstacleManager(int playerGap, int obstacleGap, int obstacleHeight, int color){
+    public ObstacleManager(int playerGap, int obstacleGap, int obstacleHeight, int color) {
         this.playerGap = playerGap;
         this.obstacleGap = obstacleGap;
         this.obstacleHeight = obstacleHeight;
         this.color = color;
-
-        startTime = initTime = System.currentTimeMillis();
 
         obstacles = new ArrayList<>();
 
         populateObstacles();
     }
 
-    public boolean playerCollide(RectPlayer player){
-        for(Obstacle ob : obstacles) {
-            if(ob.playerCollide(player))
+    public boolean playerCollide(RectPlayer player) {
+        for (Obstacle ob : obstacles) {
+            if (ob.playerCollide(player))
                 return true;
         }
         return false;
     }
 
-    private void populateObstacles(){
-        int currY = -5*Constants.SCREEN_HEIGHT/4;
-        while(currY < 0){
-            int xStart = (int) (Math.random()*(Constants.SCREEN_WIDTH - playerGap));
+    private void populateObstacles() {
+        int currY = -5 * Constants.SCREEN_HEIGHT / 4;
+        while (currY < 0) {
+            int xStart = (int) (Math.random() * (Constants.SCREEN_WIDTH - playerGap));
             obstacles.add(new Obstacle(obstacleHeight, color, xStart, currY, playerGap));
             currY += obstacleHeight + obstacleGap;
         }
     }
 
-    public void update(){
-        //region Handle game speed acceleration over time
-        int elapsedTime = (int) (System.currentTimeMillis() - startTime);
-        startTime = System.currentTimeMillis();
-        float speed = (float) Math.sqrt(1 + (startTime - initTime) / 2000.0) * Constants.SCREEN_HEIGHT / 5000.0f;
+    public void update(float incrY) {
 
-        for(Obstacle ob : obstacles){
-            ob.incrementY(speed * elapsedTime);
+        for (Obstacle ob : obstacles) {
+            ob.incrementY(incrY);
         }
-        //endregion
 
-        if(obstacles.get(obstacles.size() - 1).getRectangle().top >= Constants.SCREEN_HEIGHT){
-
-            int calculatedY =  obstacles.get(0).getRectangle().top - obstacleHeight - obstacleGap;
-
-            Log.d("panda", "OBSTACLE : calculatedY : " + calculatedY );
-            Log.d("panda", "obstacles.get(0).getRectangle().top : " + obstacles.get(0).getRectangle().top);
-            Log.d("panda", "obstacleHeight : " + obstacleHeight);
-            Log.d("panda", "obstacleGap : " + obstacleGap);
-
-
-            int xStart = (int) (Math.random()*(Constants.SCREEN_WIDTH - playerGap));
+        if (obstacles.get(obstacles.size() - 1).getRectangle().top >= Constants.SCREEN_HEIGHT) {
+            int xStart = (int) (Math.random() * (Constants.SCREEN_WIDTH - playerGap));
             obstacles.add(0, new Obstacle(obstacleHeight, color, xStart, obstacles.get(0).getRectangle().top - obstacleHeight - obstacleGap, playerGap));
-            obstacles.remove(obstacles.size() -1);
-            score ++;
+            obstacles.remove(obstacles.size() - 1);
+            score++;
         }
-
-
     }
 
-    public void draw(Canvas canvas){
-        for(Obstacle ob : obstacles){
+    public void draw(Canvas canvas) {
+        for (Obstacle ob : obstacles) {
             ob.draw(canvas);
         }
 

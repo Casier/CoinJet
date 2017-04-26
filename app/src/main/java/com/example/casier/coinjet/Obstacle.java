@@ -17,11 +17,11 @@ public class Obstacle implements GameObject {
     private Drawable leftWall; // Will be used later with correct drawables
     private Drawable rightWall;
 
-    public Rect getRectangle(){
+    public Rect getRectangle() {
         return rectangle;
     }
 
-    public void incrementY(float y){
+    public void incrementY(float y) {
         rectangle.top += y;
         rectangle.bottom += y;
 
@@ -29,7 +29,7 @@ public class Obstacle implements GameObject {
         rectangle2.bottom += y;
     }
 
-    public Obstacle(int rectHeight, int color, int startX, int startY, int playerGap){
+    public Obstacle(int rectHeight, int color, int startX, int startY, int playerGap) {
         this.color = color;
         rectangle = new Rect(0, startY, startX, startY + rectHeight);
         rectangle2 = new Rect(startX + playerGap, startY, Constants.SCREEN_WIDTH, startY + rectHeight);
@@ -38,7 +38,7 @@ public class Obstacle implements GameObject {
         //rightWall = Constants.CURRENT_CONTEXT.getResources().getDrawable(R.drawable.snakelava_right);
     }
 
-    public boolean playerCollide(RectPlayer player){
+    public boolean playerCollide(RectPlayer player) {
         return Rect.intersects(rectangle, player.getRectangle()) || Rect.intersects(rectangle2, player.getRectangle());
     }
 
@@ -53,7 +53,6 @@ public class Obstacle implements GameObject {
         rightWall.draw(canvas);
         */
         //endregion
-
 
 
         Paint paint = new Paint();
