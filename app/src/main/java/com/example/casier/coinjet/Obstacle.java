@@ -1,7 +1,5 @@
 package com.example.casier.coinjet;
 
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 
@@ -19,6 +17,10 @@ public class Obstacle implements GameObject {
 
     public Rect getRectangle() {
         return rectangle;
+    }
+
+    public Rect getRectangle2() {
+        return rectangle2;
     }
 
     public void incrementY(float y) {
@@ -40,25 +42,6 @@ public class Obstacle implements GameObject {
 
     public boolean playerCollide(RectPlayer player) {
         return Rect.intersects(rectangle, player.getRectangle()) || Rect.intersects(rectangle2, player.getRectangle());
-    }
-
-    @Override
-    public void draw(Canvas canvas) {
-
-        //region Drawable Management
-        /*
-        leftWall.setBounds(rectangle);
-        rightWall.setBounds(rectangle2);
-        leftWall.draw(canvas);
-        rightWall.draw(canvas);
-        */
-        //endregion
-
-
-        Paint paint = new Paint();
-        paint.setColor(color);
-        canvas.drawRect(rectangle, paint);
-        canvas.drawRect(rectangle2, paint);
     }
 
     @Override

@@ -1,9 +1,5 @@
 package com.example.casier.coinjet;
 
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-
 import java.util.ArrayList;
 
 /**
@@ -61,15 +57,12 @@ public class ObstacleManager {
             score++;
         }
     }
+    
+    public int getScore(){
+        return score;
+    }
 
-    public void draw(Canvas canvas) {
-        for (Obstacle ob : obstacles) {
-            ob.draw(canvas);
-        }
-
-        Paint paint = new Paint();
-        paint.setTextSize(100);
-        paint.setColor(Color.CYAN);
-        canvas.drawText("" + score, 50, 50 + paint.descent() - paint.ascent(), paint);
+    public ArrayList<Obstacle> getObstacles(){
+        return obstacles;
     }
 }

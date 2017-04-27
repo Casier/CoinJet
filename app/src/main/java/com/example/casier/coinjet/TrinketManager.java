@@ -1,7 +1,5 @@
 package com.example.casier.coinjet;
 
-import android.graphics.Canvas;
-
 import java.util.ArrayList;
 
 /**
@@ -16,6 +14,8 @@ public class TrinketManager {
     private int tHeight; // Trinket height
     private int trinketGap; // Space between two trinkets
     private int trinketObstacleGap; // Space between a trinket & an obstacle
+
+    private int score = 0;
 
     public TrinketManager(int color, int tWidth, int tHeight, int trinketGap, int trinketObstacleGap) {
         this.color = color;
@@ -32,6 +32,7 @@ public class TrinketManager {
     public boolean playerCollide(RectPlayer player) {
         for (Trinket tk : trinkets) {
             if (tk.playerCollide(player)) {
+                score ++;
                 int xStart = (int) (Math.random() * (Constants.SCREEN_WIDTH - tWidth));
                 Trinket trinket = new Trinket(xStart, trinkets.get(0).getRectangle().top - tHeight - trinketGap, tWidth, tHeight, color);
                 trinkets.remove(tk);
@@ -66,9 +67,11 @@ public class TrinketManager {
 
     }
 
-    public void draw(Canvas canvas) {
-        for (Trinket tk : trinkets) {
-            tk.draw(canvas);
-        }
+    public int getScore(){
+        return score;
+    }
+
+    public ArrayList<Trinket> getTrinkets(){
+        return trinkets;
     }
 }

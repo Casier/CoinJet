@@ -1,7 +1,5 @@
 package com.example.casier.coinjet;
 
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.Rect;
 
 /**
@@ -31,13 +29,6 @@ public class Trinket implements GameObject {
 
     public boolean playerCollide(RectPlayer player) {
         return Rect.intersects(rectangle, player.getRectangle());
-    }
-
-    @Override
-    public void draw(Canvas canvas) {
-        Paint paint = new Paint();
-        paint.setColor(color);
-        canvas.drawRect(rectangle, paint);
     }
 
     @Override
