@@ -1,5 +1,6 @@
 package com.example.casier.coinjet;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 
@@ -13,9 +14,9 @@ public class SceneManager {
     private ArrayList<Scene> scenes = new ArrayList<>();
     public static int ACTIVE_SCENE;
 
-    public SceneManager(){
+    public SceneManager(Context context){
         ACTIVE_SCENE = 0;
-        scenes.add(new GameplayScene());
+        scenes.add(new GameplayScene(context));
     }
 
     public void recieveTouch(MotionEvent event){

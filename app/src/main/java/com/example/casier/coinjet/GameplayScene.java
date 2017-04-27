@@ -1,5 +1,6 @@
 package com.example.casier.coinjet;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -12,6 +13,8 @@ import android.view.MotionEvent;
  */
 
 public class GameplayScene implements Scene {
+
+    private Context context;
 
     private Rect r = new Rect();
 
@@ -56,14 +59,15 @@ public class GameplayScene implements Scene {
         TRIPLE_SPEED
     }
 
-    public GameplayScene() {
+    public GameplayScene(Context context) {
+        this.context = context;
         player = new RectPlayer(new Rect(0, 0, PLAYER_WIDTH, PLAYER_HEIGHT));
         playerPoint = new Point(Constants.SCREEN_WIDTH / 2, 3 * Constants.SCREEN_HEIGHT / 4);
         player.update(playerPoint);
         obstacleManager = new ObstacleManager(PLAYER_GAP, OBSTACLE_GAP, OBSTACLE_HEIGHT);
         trinketManager = new TrinketManager(TRINKET_WIDTH, TRINKET_HEIGHT, TRINKET_GAP, TRINKET_OBSTACLE_GAP);
 
-        canvasManager = new CanvasManager();
+        canvasManager = new CanvasManager(context);
 
         startTime = initTime = System.currentTimeMillis();
     }
@@ -75,7 +79,7 @@ public class GameplayScene implements Scene {
         trinketManager = new TrinketManager(TRINKET_WIDTH, TRINKET_HEIGHT, TRINKET_GAP, TRINKET_OBSTACLE_GAP);
         movingPlayer = false;
 
-        canvasManager = new CanvasManager();
+        canvasManager = new CanvasManager(context);
 
         startTime = initTime = System.currentTimeMillis();
     }

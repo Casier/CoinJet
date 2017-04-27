@@ -1,11 +1,14 @@
 package com.example.casier.coinjet;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.res.ResourcesCompat;
 
 import java.util.ArrayList;
 
@@ -16,6 +19,7 @@ import java.util.ArrayList;
 public class CanvasManager {
 
     private Canvas canvas; // optional ?
+    private Context context;
 
     // Define canvas elements color
     public static int TRINKET_COLOR = Color.BLUE;
@@ -48,7 +52,9 @@ public class CanvasManager {
     //endregion
 
 
-    public CanvasManager() {
+    public CanvasManager(Context context) {
+        this.context = context;
+
         //region create every Paint objects needed
         trinketPaint = new Paint();
         trinketPaint.setColor(TRINKET_COLOR);
@@ -94,8 +100,12 @@ public class CanvasManager {
             canvas.drawRect(o.getRectangle(), obstaclePaint);   // Draw left part of the obstacle
             canvas.drawRect(o.getRectangle2(), obstaclePaint);  // Draw right part of the obstacle
         }
-        for (Trinket t : trinkets)
-            canvas.drawRect(t.getRectangle(), trinketPaint);
+        for (Trinket t : trinkets) {
+            Drawable trinketDrawable = ResourcesCompat.getDrawable(context.getResources(), R.drawable.slimblue, null);
+            trinketDrawable.setBounds(t.getRectangle());
+            trinketDrawable.draw(canvas);
+        }
+
         //endregion
 
         //region Text drawing
