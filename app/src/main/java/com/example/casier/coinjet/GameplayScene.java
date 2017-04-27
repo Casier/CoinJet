@@ -32,11 +32,8 @@ public class GameplayScene implements Scene {
     private int elapsedTime;
     private float speed;
 
-    //region Important variables
-
     public static int PLAYER_WIDTH = 100;     // Ratio will be saved
     public static int PLAYER_HEIGHT = 100;    // Ratio will be saved
-    public static int PLAYER_COLOR = Color.rgb(255, 0, 0);
 
     public static int PLAYER_GAP = 350;         // Represents the space between left and right "walls"
     public static int OBSTACLE_GAP = 400;       // Represents the space between two "walls"
@@ -59,10 +56,8 @@ public class GameplayScene implements Scene {
         TRIPLE_SPEED
     }
 
-    //endregion
-
     public GameplayScene() {
-        player = new RectPlayer(new Rect(0, 0, PLAYER_WIDTH, PLAYER_HEIGHT), PLAYER_COLOR);
+        player = new RectPlayer(new Rect(0, 0, PLAYER_WIDTH, PLAYER_HEIGHT));
         playerPoint = new Point(Constants.SCREEN_WIDTH / 2, 3 * Constants.SCREEN_HEIGHT / 4);
         player.update(playerPoint);
         obstacleManager = new ObstacleManager(PLAYER_GAP, OBSTACLE_GAP, OBSTACLE_HEIGHT);
@@ -90,6 +85,7 @@ public class GameplayScene implements Scene {
         if (!gameOver) {
             calculateSpeed();
             player.update(playerPoint);
+            canvasManager.setPlayer(player);
             if (obstacleManager.playerCollide(player)) {
                 gameOver = true;
                 gameOverTime = System.currentTimeMillis();
@@ -137,18 +133,13 @@ public class GameplayScene implements Scene {
         canvasManager.setTrinkets(trinketManager.getTrinkets());
         canvasManager.setObstacleScore(obstacleManager.getScore());
         canvasManager.setTrinketScore(trinketManager.getScore());
+        canvasManager.setPlayer(player);
 
         canvasManager.draw(canvas);
 
         Paint topPaint = new Paint();
         topPaint.setColor(Color.rgb(128, 128, 128));
         topPaint.setAlpha(70);
-
-
-        player.draw(canvas);
-        //obstacleManager.draw(canvas);
-        //canvas.drawRect(new Rect(0, 0, Constants.SCREEN_WIDTH, 150), topPaint);
-        //trinketManager.draw(canvas);
 
         if (gameOver) {
             Paint paint = new Paint();

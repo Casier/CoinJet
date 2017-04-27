@@ -2,7 +2,6 @@ package com.example.casier.coinjet;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -14,20 +13,18 @@ import android.graphics.Rect;
 public class RectPlayer implements GameObject {
 
     private Rect rectangle;
-    private int color;
 
     private Animation idle;
     private Animation walkRight;
     private Animation walkLeft;
     private AnimationManager animationManager;
 
-    public Rect getRectangle(){
+    public Rect getRectangle() {
         return rectangle;
     }
 
-    public RectPlayer(Rect rect, int color){
+    public RectPlayer(Rect rect) {
         this.rectangle = rect;
-        this.color = color;
 
         BitmapFactory bf = new BitmapFactory();
         Bitmap idleImg = bf.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.alienblue);
@@ -48,39 +45,11 @@ public class RectPlayer implements GameObject {
     }
 
     @Override
-    public void draw(Canvas canvas) {
-
-        //region Drawable Management
-        /*
-        drawable.setBounds(rectangle);
-        drawable.draw(canvas);
-        */
-        //endregion
-
-        //Paint paint = new Paint();
-        //paint.setColor(color);
-        //canvas.drawRect(rectangle, paint);
-
-        animationManager.draw(canvas, rectangle);
-    }
-
-    @Override
     public void update() {
         animationManager.update();
     }
 
-    public void update(Point point){
-        float oldLeft = rectangle.left;
-
-        rectangle.set(point.x - rectangle.width() / 2, point.y - rectangle.height() / 2,  point.x + rectangle.width() / 2, point.y + rectangle.height() / 2);
-
-        int state = 0;
-        if(rectangle.left - oldLeft > 5)
-            state =  1;
-        else if (rectangle.left - oldLeft < - 5)
-            state = 2;
-
-        animationManager.playAnim(state);
-        animationManager.update();
+    public void update(Point point) {
+        rectangle.set(point.x - rectangle.width() / 2, point.y - rectangle.height() / 2, point.x + rectangle.width() / 2, point.y + rectangle.height() / 2);
     }
 }
