@@ -9,7 +9,6 @@ import android.graphics.Rect;
 public class Trinket implements GameObject {
 
     private Rect rectangle;
-    private int color;
 
     public Rect getRectangle() {
         return rectangle;
@@ -20,10 +19,7 @@ public class Trinket implements GameObject {
         rectangle.bottom += y;
     }
 
-    public Trinket(int startX, int startY, int width, int height, int color) {
-
-        // initX, initY, width, height, color
-        this.color = color;
+    public Trinket(int startX, int startY, int width, int height) {
         rectangle = new Rect(startX, startY, startX + width, startY + height);
     }
 

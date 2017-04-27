@@ -1,7 +1,6 @@
 package com.example.casier.coinjet;
 
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 
 /**
  * Created by Casier on 25/04/2017.
@@ -11,9 +10,6 @@ public class Obstacle implements GameObject {
 
     private Rect rectangle;
     private Rect rectangle2;
-    private int color;
-    private Drawable leftWall; // Will be used later with correct drawables
-    private Drawable rightWall;
 
     public Rect getRectangle() {
         return rectangle;
@@ -31,13 +27,9 @@ public class Obstacle implements GameObject {
         rectangle2.bottom += y;
     }
 
-    public Obstacle(int rectHeight, int color, int startX, int startY, int playerGap) {
-        this.color = color;
+    public Obstacle(int rectHeight, int startX, int startY, int playerGap) {
         rectangle = new Rect(0, startY, startX, startY + rectHeight);
         rectangle2 = new Rect(startX + playerGap, startY, Constants.SCREEN_WIDTH, startY + rectHeight);
-
-        //leftWall = Constants.CURRENT_CONTEXT.getResources().getDrawable(R.drawable.snakelava_left);
-        //rightWall = Constants.CURRENT_CONTEXT.getResources().getDrawable(R.drawable.snakelava_right);
     }
 
     public boolean playerCollide(RectPlayer player) {

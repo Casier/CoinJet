@@ -12,15 +12,13 @@ public class ObstacleManager {
     private int playerGap;
     private int obstacleGap;
     private int obstacleHeight;
-    private int color;
 
     private int score = 0;
 
-    public ObstacleManager(int playerGap, int obstacleGap, int obstacleHeight, int color) {
+    public ObstacleManager(int playerGap, int obstacleGap, int obstacleHeight) {
         this.playerGap = playerGap;
         this.obstacleGap = obstacleGap;
         this.obstacleHeight = obstacleHeight;
-        this.color = color;
 
         obstacles = new ArrayList<>();
 
@@ -39,7 +37,7 @@ public class ObstacleManager {
         int currY = -5 * Constants.SCREEN_HEIGHT / 4;
         while (currY < 0) {
             int xStart = (int) (Math.random() * (Constants.SCREEN_WIDTH - playerGap));
-            obstacles.add(new Obstacle(obstacleHeight, color, xStart, currY, playerGap));
+            obstacles.add(new Obstacle(obstacleHeight, xStart, currY, playerGap));
             currY += obstacleHeight + obstacleGap;
         }
     }
@@ -52,12 +50,12 @@ public class ObstacleManager {
 
         if (obstacles.get(obstacles.size() - 1).getRectangle().top >= Constants.SCREEN_HEIGHT) {
             int xStart = (int) (Math.random() * (Constants.SCREEN_WIDTH - playerGap));
-            obstacles.add(0, new Obstacle(obstacleHeight, color, xStart, obstacles.get(0).getRectangle().top - obstacleHeight - obstacleGap, playerGap));
+            obstacles.add(0, new Obstacle(obstacleHeight, xStart, obstacles.get(0).getRectangle().top - obstacleHeight - obstacleGap, playerGap));
             obstacles.remove(obstacles.size() - 1);
             score++;
         }
     }
-    
+
     public int getScore(){
         return score;
     }

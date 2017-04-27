@@ -7,9 +7,6 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
-import static com.example.casier.coinjet.CanvasManager.OBSTACLE_COLOR;
-import static com.example.casier.coinjet.CanvasManager.TRINKET_COLOR;
-
 /**
  * Created by Casier on 25/04/2017.
  */
@@ -68,8 +65,8 @@ public class GameplayScene implements Scene {
         player = new RectPlayer(new Rect(0, 0, PLAYER_WIDTH, PLAYER_HEIGHT), PLAYER_COLOR);
         playerPoint = new Point(Constants.SCREEN_WIDTH / 2, 3 * Constants.SCREEN_HEIGHT / 4);
         player.update(playerPoint);
-        obstacleManager = new ObstacleManager(PLAYER_GAP, OBSTACLE_GAP, OBSTACLE_HEIGHT, OBSTACLE_COLOR);
-        trinketManager = new TrinketManager(TRINKET_COLOR, TRINKET_WIDTH, TRINKET_HEIGHT, TRINKET_GAP, TRINKET_OBSTACLE_GAP);
+        obstacleManager = new ObstacleManager(PLAYER_GAP, OBSTACLE_GAP, OBSTACLE_HEIGHT);
+        trinketManager = new TrinketManager(TRINKET_WIDTH, TRINKET_HEIGHT, TRINKET_GAP, TRINKET_OBSTACLE_GAP);
 
         canvasManager = new CanvasManager();
 
@@ -79,9 +76,11 @@ public class GameplayScene implements Scene {
     public void reset() {
         playerPoint = new Point(Constants.SCREEN_WIDTH / 2, 3 * Constants.SCREEN_HEIGHT / 4);
         player.update(playerPoint);
-        obstacleManager = new ObstacleManager(PLAYER_GAP, OBSTACLE_GAP, OBSTACLE_HEIGHT, OBSTACLE_COLOR);
-        trinketManager = new TrinketManager(TRINKET_COLOR, TRINKET_WIDTH, TRINKET_HEIGHT, TRINKET_GAP, TRINKET_OBSTACLE_GAP);
+        obstacleManager = new ObstacleManager(PLAYER_GAP, OBSTACLE_GAP, OBSTACLE_HEIGHT);
+        trinketManager = new TrinketManager(TRINKET_WIDTH, TRINKET_HEIGHT, TRINKET_GAP, TRINKET_OBSTACLE_GAP);
         movingPlayer = false;
+
+        canvasManager = new CanvasManager();
 
         startTime = initTime = System.currentTimeMillis();
     }

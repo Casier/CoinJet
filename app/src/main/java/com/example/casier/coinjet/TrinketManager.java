@@ -9,7 +9,6 @@ import java.util.ArrayList;
 public class TrinketManager {
 
     private ArrayList<Trinket> trinkets; // List of next trinkets
-    private int color; // Trinket color
     private int tWidth; // Trinket width
     private int tHeight; // Trinket height
     private int trinketGap; // Space between two trinkets
@@ -17,8 +16,7 @@ public class TrinketManager {
 
     private int score = 0;
 
-    public TrinketManager(int color, int tWidth, int tHeight, int trinketGap, int trinketObstacleGap) {
-        this.color = color;
+    public TrinketManager(int tWidth, int tHeight, int trinketGap, int trinketObstacleGap) {
         this.tWidth = tWidth;
         this.tHeight = tHeight;
         this.trinketGap = trinketGap;
@@ -34,7 +32,7 @@ public class TrinketManager {
             if (tk.playerCollide(player)) {
                 score ++;
                 int xStart = (int) (Math.random() * (Constants.SCREEN_WIDTH - tWidth));
-                Trinket trinket = new Trinket(xStart, trinkets.get(0).getRectangle().top - tHeight - trinketGap, tWidth, tHeight, color);
+                Trinket trinket = new Trinket(xStart, trinkets.get(0).getRectangle().top - tHeight - trinketGap, tWidth, tHeight);
                 trinkets.remove(tk);
                 trinkets.add(0, trinket);
                 return true;
@@ -47,8 +45,7 @@ public class TrinketManager {
         int currY = -5 * Constants.SCREEN_HEIGHT / 4;
         while (currY < 0) {
             int xStart = (int) (Math.random() * (Constants.SCREEN_WIDTH - tWidth));
-            // initX, initY, width, height, color
-            trinkets.add(new Trinket(xStart, currY - trinketObstacleGap, tWidth, tHeight, color));
+            trinkets.add(new Trinket(xStart, currY - trinketObstacleGap, tWidth, tHeight));
             currY += tHeight + trinketGap;
         }
     }
@@ -61,7 +58,7 @@ public class TrinketManager {
 
         if (trinkets.get(trinkets.size() - 1).getRectangle().top >= Constants.SCREEN_HEIGHT) {
             int xStart = (int) (Math.random() * (Constants.SCREEN_WIDTH - tWidth));
-            trinkets.add(0, new Trinket(xStart, trinkets.get(0).getRectangle().top - tHeight - trinketGap, tWidth, tHeight, color));
+            trinkets.add(0, new Trinket(xStart, trinkets.get(0).getRectangle().top - tHeight - trinketGap, tWidth, tHeight));
             trinkets.remove(trinkets.size() - 1);
         }
 
